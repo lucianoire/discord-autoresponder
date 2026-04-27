@@ -15,8 +15,9 @@ client.once("ready", () => {
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
+  // COMMAND 1
   if (message.content === ",r") {
-    await message.channel.send(`_ _
+    await message.reply(`_ _
 
 𓄲  𝐫𝐞𝐩𝐨𝐫𝐭 𝐟𝐨𝐫𝐦
 ✴︎ premium availed : 
@@ -43,8 +44,9 @@ client.on("messageCreate", async (message) => {
 _ _`);
   }
 
+  // COMMAND 2
   if (message.content === ",ad") {
-    await message.channel.send(`# _ _            [**𝖑𝖚𝖈𝖎𝖆 𝖓𝖔𝖎𝖗𝖊́**](https://discord.gg/35VsZMzrKt) 💎
+    await message.reply(`# _ _            [**𝖑𝖚𝖈𝖎𝖆 𝖓𝖔𝖎𝖗𝖊́**](https://discord.gg/35VsZMzrKt) 💎
 -# _ _ _ _               ━━━━━━━━━━━━━━━━━━━━━━━━
 -# ⠀                discounted items available 𓆩༒𓆪
 -# _ _ _ _               ━━━━━━━━━━━━━━━━━━━━━━━━
