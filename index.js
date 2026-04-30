@@ -1,4 +1,36 @@
-import { Client, GatewayIntentBits } from "discord.js";
+import {
+  Client,
+  GatewayIntentBits,
+  REST,
+  Routes,
+  SlashCommandBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle
+} from "discord.js";
+
+const OWNER_ID = "1330573713346920533";
+const STATUS_CHANNEL_ID = "1455613451903832270";
+
+const OPEN_MESSAGE = `_ _
+‎ ‎ ‎ ‎ ‎  ‎ ‎ 
+‎ ‎ ‎ ‎ ‎       ‎ ‎ 𝘀𝗵𝗼𝗽 𝗶𝘀 𝗻𝗼𝘄 𝗼𝗽𝗲𝗻<:pb_cross:1483491731206045889> 
+‎            ‎ ‎ ‎ for inquiries, click [here](https://discord.com/channels/1455613450935079109/1455613452390236348)
+‎ ‎ ‎ ‎ ‎       and create a [tix](https://discord.com/channels/1455613450935079109/1455613451903832274) for orders
+‎ ‎ ‎           ‎‎ ping <@&1455613450935079116> if rush
+_ _                      <@&1455613450935079110> 
+_ _`;
+
+const CLOSE_MESSAGE = `_ _
+                **shop is now closed !**<:korizumi:1482992191746871437> 
+
+-# _ _                    feel free to create a [tix](https://discord.com/channels/1455613450935079109/1455613451903832274)
+-# _ _      but orders will be handled tomorrow !
+
+-# _ _                thank ü for ordering today 
+-# _ _              goodnight     lovely     buyers ! <a:xoxokaori:1482440547078766653>
+_ _                      <@&1455613450935079110>
+_ _`;
 
 const STICKY_MESSAGES = {
   "1455613451903832275": `_ _
@@ -75,14 +107,94 @@ const client = new Client({
   ]
 });
 
-client.once("ready", () => {
+client.once("ready", async () => {
   console.log(`Ready as ${client.user.tag}`);
+
+  const commands = [
+    new SlashCommandBuilder()
+      .setName("status")
+      .setDescription("Shop status buttons")
+      .toJSON()
+  ];
+
+  const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);
+
+  await rest.put(
+    Routes.applicationGuildCommands(
+      process.env.CLIENT_ID,
+      process.env.GUILD_ID
+    ),
+    { body: commands }
+  );
+
+  console.log("/status registered");
+});
+
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isChatInputCommand() && !interaction.isButton()) return;
+
+  if (interaction.isChatInputCommand()) {
+    if (interaction.commandName !== "status") return;
+
+    if (interaction.user.id !== OWNER_ID) {
+      return interaction.reply({
+        content: "not allowed",
+        ephemeral: true
+      });
+    }
+
+    const row = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId("shop_open")
+        .setLabel("open")
+        .setStyle(ButtonStyle.Success),
+
+      new ButtonBuilder()
+        .setCustomId("shop_close")
+        .setLabel("close")
+        .setStyle(ButtonStyle.Danger)
+    );
+
+    return interaction.reply({
+      content: "choose shop status",
+      components: [row],
+      ephemeral: true
+    });
+  }
+
+  if (interaction.isButton()) {
+    if (interaction.user.id !== OWNER_ID) {
+      return interaction.reply({
+        content: "not allowed",
+        ephemeral: true
+      });
+    }
+
+    const channel = await client.channels.fetch(STATUS_CHANNEL_ID);
+
+    if (interaction.customId === "shop_open") {
+      await channel.send(OPEN_MESSAGE);
+
+      return interaction.reply({
+        content: "posted open",
+        ephemeral: true
+      });
+    }
+
+    if (interaction.customId === "shop_close") {
+      await channel.send(CLOSE_MESSAGE);
+
+      return interaction.reply({
+        content: "posted close",
+        ephemeral: true
+      });
+    }
+  }
 });
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
-  // autoresponder 1
   if (message.content === ",r") {
     await message.reply(`_ _
 
@@ -111,7 +223,6 @@ client.on("messageCreate", async (message) => {
 _ _`);
   }
 
-  // autoresponder 2
   if (message.content === ",ad") {
     await message.reply(`# _ _            [**𝖑𝖚𝖈𝖎𝖆 𝖓𝖔𝖎𝖗𝖊́**](https://discord.gg/35VsZMzrKt) 💎
 -# _ _ _ _               ━━━━━━━━━━━━━━━━━━━━━━━━
@@ -123,13 +234,14 @@ _ _                           discounted load
 _ _`);
   }
 
-  // sticky system
   const stickyMessage = STICKY_MESSAGES[message.channel.id];
 
   if (stickyMessage) {
     if (lastStickyIds[message.channel.id]) {
       try {
-        const oldSticky = await message.channel.messages.fetch(lastStickyIds[message.channel.id]);
+        const oldSticky = await message.channel.messages.fetch(
+          lastStickyIds[message.channel.id]
+        );
         await oldSticky.delete();
       } catch (e) {}
     }
