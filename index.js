@@ -15,7 +15,7 @@ const STATUS_CHANNEL_ID = "1501118749288300577";
 const OPEN_MESSAGE = `_ _
  .   .   ︵︵  **ℓucia is now open !** . . <:cutesy_001:1501141865905258527>
 -# _ _                    lace and love, <@&1455613450935079110>
-               𓎢𓎠𓎟𓎠𓎡<a:flower_1:1500489961986723910> 𓎢𓎠𓎟𓎠𓎡
+               𓎢𓎠𓎟𓎠𓎡<a:flower_1:1500489961986723910>𓎢𓎠𓎟𓎠𓎡
 _ _         <a:heart_1:1501193566783930369>  always  ask for  [availability](https://discord.com/channels/1455613450935079109/1501109299424923709)
 _ _          <:bend_1:1501187237151375463> before   creating  a    ticket
 _ _         <a:heart_1:1501193566783930369>  [read rules](https://discord.com/channels/1455613450935079109/1455613451903832269) before  ordering
