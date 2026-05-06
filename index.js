@@ -10,26 +10,16 @@ import {
 } from "discord.js";
 
 const OWNER_ID = "1330573713346920533";
-const STATUS_CHANNEL_ID = "1455613451903832270";
+const STATUS_CHANNEL_ID = "1501118749288300577";
 
 const OPEN_MESSAGE = `_ _
-‎ ‎ ‎ ‎ ‎  ‎ ‎ 
-‎ ‎ ‎ ‎ ‎       ‎ ‎ 𝘀𝗵𝗼𝗽 𝗶𝘀 𝗻𝗼𝘄 𝗼𝗽𝗲𝗻<:pb_cross:1483491731206045889> 
-‎            ‎ ‎ ‎ for inquiries, click [here](https://discord.com/channels/1455613450935079109/1455613452390236348)
-‎ ‎ ‎ ‎ ‎       and create a [tix](https://discord.com/channels/1455613450935079109/1455613451903832274) for orders
-‎ ‎ ‎           ‎‎ ping <@&1455613450935079116> if rush
-_ _                      <@&1455613450935079110> 
-_ _`;
-
-const CLOSE_MESSAGE = `_ _
-                **shop is now closed !**<:korizumi:1482992191746871437> 
-
--# _ _                    feel free to create a [tix](https://discord.com/channels/1455613450935079109/1455613451903832274)
--# _ _      but orders will be handled tomorrow !
-
--# _ _                thank ü for ordering today 
--# _ _              goodnight     lovely     buyers ! <a:xoxokaori:1482440547078766653>
-_ _                      <@&1455613450935079110>
+ .   .   ︵︵  **ℓucia is now open !** . . <:cutesy_001:1501141865905258527>
+-# _ _                    lace and love, <@&1455613450935079110>
+               𓎢𓎠𓎟𓎠𓎡<a:flower_1:1500489961986723910> 𓎢𓎠𓎟𓎠𓎡
+_ _         <a:heart_1:1501193566783930369>  always  ask for  [availability](https://discord.com/channels/1455613450935079109/1501109299424923709)
+_ _          <:bend_1:1501187237151375463> before   creating  a    ticket
+_ _         <a:heart_1:1501193566783930369>  [read rules](https://discord.com/channels/1455613450935079109/1455613451903832269) before  ordering
+_ _         <a:heart_1:1501193566783930369>  no to rush and rude buyers
 _ _`;
 
 const STICKY_MESSAGES = {
@@ -113,7 +103,7 @@ client.once("ready", async () => {
   const commands = [
     new SlashCommandBuilder()
       .setName("status")
-      .setDescription("Shop status buttons")
+      .setDescription("Shop status")
       .toJSON()
   ];
 
@@ -147,16 +137,11 @@ client.on("interactionCreate", async (interaction) => {
       new ButtonBuilder()
         .setCustomId("shop_open")
         .setLabel("open")
-        .setStyle(ButtonStyle.Success),
-
-      new ButtonBuilder()
-        .setCustomId("shop_close")
-        .setLabel("close")
-        .setStyle(ButtonStyle.Danger)
+        .setStyle(ButtonStyle.Success)
     );
 
     return interaction.reply({
-      content: "choose shop status",
+      content: "choose",
       components: [row],
       ephemeral: true
     });
@@ -177,15 +162,6 @@ client.on("interactionCreate", async (interaction) => {
 
       return interaction.reply({
         content: "posted open",
-        ephemeral: true
-      });
-    }
-
-    if (interaction.customId === "shop_close") {
-      await channel.send(CLOSE_MESSAGE);
-
-      return interaction.reply({
-        content: "posted close",
         ephemeral: true
       });
     }
@@ -224,10 +200,11 @@ _ _`);
   }
 
   if (message.content === ",ad") {
-    await message.reply(`# _ _            [**𝖑𝖚𝖈𝖎𝖆 𝖓𝖔𝖎𝖗𝖊́**](https://discord.gg/35VsZMzrKt) 💎
--# _ _ _ _               ━━━━━━━━━━━━━━━━━━━━━━━━
--# ⠀                discounted items available 𓆩༒𓆪
--# _ _ _ _               ━━━━━━━━━━━━━━━━━━━━━━━━
+    await message.reply(`_ _
+_ _               .   .  ♡︎  [lucia noire](https://discord.gg/RcHd5sHm9n)  ︵︵  <a:lucia_dns1:1501122589970399362>
+_ _ _ _            𓎢𓎠𓎟𓎠𓎡<a:flower_1:1500489961986723910>𓎢𓎠𓎟𓎠𓎡
+-# ⠀                  discounted items available              
+_ _
 _ _        n-tro . robuks . dc items . premiums
 _ _      game credits . social boost . paid apps
 _ _                           discounted load
